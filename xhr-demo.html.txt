@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMLHttpRequest Lab</title>
+</head>
+<body>
+<h2>Exploring XMLHttpRequest</h2>
+
+<button id="loadData">Load Post Data</button>
+
+<div id="output" style="margin-top: 20px; border: 1px solid #ddd; padding: 10px;">
+    Click the button to load the post.
+</div>
+
+<script>
+    const button = document.getElementById("loadData");
+    const output = document.getElementById("output");
+
+    button.addEventListener("click", function () {
+        const xhr = new XMLHttpRequest();
+
+        output.innerHTML = "Loading post data...";
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+
+                if (xhr.status === 200) {
+                    try {
+                        const post = JSON.parse(xhr.responseText);
+
+                        output.innerHTML = `
+                            <strong>Post Title:</strong> ${post.title}
+                            <br><br>
+                            <strong>Content:</strong> ${post.body}
+                        `;
+                    } catch (error) {
+                        output.innerHTML =
+                            '<span style="color: red;">Error: Unable to process the server response.</span>';
+                    }
+
+                } else {
+                    output.innerHTML =
+                        `<span style="color: red;">
+                            Error: ${xhr.status} - ${xhr.statusText || "Request failed"}
+                        </span>`;
+                }
+            }
+        };
+
+        xhr.onerror = function () {
+            output.innerHTML =
+                '<span style="color: red;">Error: Network problem or server could not be reached.</span>';
+        };
+
+        xhr.open(
+            "GET",
+            "https://jsonplaceholder.typicode.com/posts/1",
+            true
+        );
+
+        xhr.send();
+    });
+</script>
+
+</body>
+</html>

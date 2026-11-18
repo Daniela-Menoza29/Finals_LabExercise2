@@ -1,0 +1,5 @@
+1. readyState property returns the state an XMLHttpRequest client is in while status property returns the numerical HTTP status code of the XMLHttpRequest's response.
+
+2. using non-blocking I/O libraries and patterns specific to your programming language
+
+3. it is recommended because it stops the web page from becomning unresponsive while waiting for a server response
